@@ -21,7 +21,7 @@ SyncRoutine es un ecosistema de productividad y alto rendimiento que permite a l
 1. Clona el repositorio e instala dependencias:
 
    ```bash
-   git clone [https://github.com/tu-usuario/syncroutine-web.git](https://github.com/tu-usuario/syncroutine-web.git)
+   git clone https://github.com/IrvingYael05/syncroutine-web.git
    cd syncroutine-web
    npm install
 
