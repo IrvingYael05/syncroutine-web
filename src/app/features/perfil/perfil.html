@@ -1,0 +1,170 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-white tracking-tight">Configuración de Perfil</h1>
+    <p class="text-textMuted mt-2">
+      Actualiza tu información personal y credenciales de seguridad.
+    </p>
+  </div>
+
+  <div
+    class="bg-surface border border-white/5 rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden"
+  >
+    <div
+      class="absolute -top-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-[60px] pointer-events-none"
+    ></div>
+
+    <form
+      [formGroup]="perfilForm"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col gap-6 relative z-10"
+    >
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-semibold text-textMuted uppercase tracking-wider"
+          >Nombre Completo</label
+        >
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg
+              class="h-5 w-5 text-textMuted"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              ></path>
+            </svg>
+          </div>
+          <input
+            type="text"
+            formControlName="nombre"
+            (input)="normalizeName($event)"
+            placeholder="Tu nuevo nombre"
+            class="w-full bg-background border border-white/10 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+          />
+        </div>
+        <span
+          *ngIf="perfilForm.get('nombre')?.invalid && perfilForm.get('nombre')?.touched"
+          class="text-danger text-xs font-medium ml-1"
+        >
+          Ingresa un nombre válido.
+        </span>
+      </div>
+
+      <div class="h-px w-full bg-white/5 my-2"></div>
+
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-semibold text-textMuted uppercase tracking-wider"
+          >Nueva Contraseña</label
+        >
+        <p class="text-xs text-textMuted mb-2">Déjalo en blanco si no deseas cambiarla.</p>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg
+              class="h-5 w-5 text-textMuted"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              ></path>
+            </svg>
+          </div>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full bg-background border border-white/10 rounded-xl pl-11 pr-12 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+          />
+
+          <button
+            type="button"
+            (click)="togglePassword()"
+            class="absolute right-4 top-1/2 -translate-y-1/2 text-textMuted hover:text-white transition-colors"
+          >
+            <svg
+              *ngIf="!showPassword"
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              ></path>
+            </svg>
+            <svg
+              *ngIf="showPassword"
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 011.53-3.06M15 12a3 3 0 11-6 0 3 3 0 016 0zm-3-3v1m0 4v1m0 4v1m0-13V5m7 7c0 1.93-.784 3.68-2.05 4.95M2 2l20 20"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div
+          *ngIf="perfilForm.get('password')?.invalid && perfilForm.get('password')?.touched"
+          class="text-danger text-xs font-medium ml-1 flex flex-col"
+        >
+          <span *ngIf="perfilForm.get('password')?.errors?.['pattern']"
+            >Debe tener al menos 7 caracteres y 1 especial.</span
+          >
+        </div>
+      </div>
+
+      <div class="pt-4 flex justify-end">
+        <button
+          type="submit"
+          [disabled]="isLoading || perfilForm.pristine"
+          class="bg-primary hover:bg-primary-hover disabled:bg-primary/30 disabled:text-white/50 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-primary/20 flex justify-center items-center gap-2"
+        >
+          <svg
+            *ngIf="isLoading"
+            class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          <span *ngIf="!isLoading">Guardar Cambios</span>
+          <span *ngIf="isLoading">Guardando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,325 @@
+<div
+  class="min-h-screen bg-background text-textMain selection:bg-primary selection:text-white font-sans"
+>
+  <nav
+    class="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-white/5 transition-all duration-300"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0, 0)">
+          <div class="bg-primary/10 p-2 rounded-xl">
+            <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <span class="text-2xl font-bold tracking-tight">SyncRoutine</span>
+        </div>
+
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            href="#caracteristicas"
+            class="text-sm font-medium text-textMuted hover:text-white transition-colors"
+            >Características</a
+          >
+          <a
+            href="#como-funciona"
+            class="text-sm font-medium text-textMuted hover:text-white transition-colors"
+            >Cómo Funciona</a
+          >
+
+          <div class="flex items-center gap-4 border-l border-white/10 pl-8">
+            <a
+              routerLink="/watch"
+              class="text-sm font-semibold text-textMuted hover:text-white transition-colors py-2.5"
+            >
+              SmartWatch App
+            </a>
+          </div>
+
+          <div class="flex items-center gap-4 border-l border-white/10 pl-8">
+            <a
+              routerLink="/login"
+              class="text-sm font-semibold text-textMuted hover:text-white transition-colors"
+            >
+              Iniciar Sesión
+            </a>
+            <a
+              routerLink="/login"
+              class="bg-primary hover:bg-primary-hover text-white text-sm font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+            >
+              Regístrate
+            </a>
+          </div>
+        </div>
+
+        <button (click)="toggleMenu()" class="md:hidden text-textMuted hover:text-white p-2">
+          <svg
+            *ngIf="!isMenuOpen"
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+          <svg
+            *ngIf="isMenuOpen"
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div
+      *ngIf="isMenuOpen"
+      class="md:hidden bg-surface border-b border-white/10 absolute w-full shadow-2xl"
+    >
+      <div class="flex flex-col px-4 pt-4 pb-6 gap-4">
+        <a
+          href="#caracteristicas"
+          (click)="toggleMenu()"
+          class="text-textMuted hover:text-white p-2"
+          >Características</a
+        >
+        <a href="#como-funciona" (click)="toggleMenu()" class="text-textMuted hover:text-white p-2"
+          >Cómo Funciona</a
+        >
+        <div class="h-px bg-white/10 w-full my-2"></div>
+        <a routerLink="/watch" class="text-center text-textMuted hover:text-white font-semibold p-2"
+          >SmartWatch App</a
+        >
+
+        <a routerLink="/login" class="text-center text-textMuted hover:text-white font-semibold p-2"
+          >Iniciar Sesión</a
+        >
+        <a
+          routerLink="/login"
+          class="bg-primary text-white text-center font-bold py-3 rounded-xl shadow-lg shadow-primary/20"
+          >Regístrate Gratis</a
+        >
+      </div>
+    </div>
+  </nav>
+
+  <main
+    class="relative flex flex-col items-center justify-center text-center px-4 pt-40 pb-20 md:pt-48 md:pb-32 overflow-hidden"
+  >
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] -z-10 pointer-events-none"
+    ></div>
+
+    <span
+      class="bg-primary/10 text-primary text-xs font-bold px-4 py-1.5 rounded-full mb-8 uppercase tracking-widest border border-primary/20 animate-pulse"
+    >
+      Proximamente 2026
+    </span>
+
+    <h1
+      class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-8 max-w-5xl leading-tight"
+    >
+      Sincroniza tu vida en <br />
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-primary">
+        tiempo real.
+      </span>
+    </h1>
+
+    <p class="text-lg md:text-xl text-textMuted mb-12 max-w-2xl leading-relaxed">
+      Diseña bloques de tareas en la web y ejecútalos desde tu smartwatch. Desde rutinas con
+      mancuernas hasta sesiones de programación, mantén el foco sin distracciones.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+      <a
+        routerLink="/login"
+        class="bg-primary hover:bg-primary-hover text-white font-bold py-4 px-10 rounded-full transition-all duration-300 flex items-center justify-center gap-3 text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+      >
+        Comenzar gratis
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M14 5l7 7m0 0l-7 7m7-7H3"
+          ></path>
+        </svg>
+      </a>
+      <a
+        href="#como-funciona"
+        class="bg-surface hover:bg-surface/80 border border-white/10 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 flex items-center justify-center text-lg hover:scale-105"
+      >
+        Descubre cómo
+      </a>
+    </div>
+  </main>
+
+  <section id="caracteristicas" class="max-w-7xl mx-auto px-4 py-20 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Todo lo que necesitas, en un solo lugar</h2>
+      <p class="text-textMuted text-lg">
+        Construido para el alto rendimiento y la concentración absoluta.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div
+        class="group bg-surface p-8 rounded-3xl border border-white/5 hover:border-primary/50 hover:bg-surface/80 transition-all duration-500 hover:-translate-y-2"
+      >
+        <div
+          class="bg-background w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300"
+        >
+          <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold mb-3 text-white">Creador de Bloques</h3>
+        <p class="text-textMuted leading-relaxed">
+          Diseña rutinas secuenciales o al azar. Asigna tiempos objetivo a cada actividad y organiza
+          tu día con precisión milimétrica.
+        </p>
+      </div>
+
+      <div
+        class="group bg-surface p-8 rounded-3xl border border-white/5 hover:border-primary/50 hover:bg-surface/80 transition-all duration-500 hover:-translate-y-2"
+      >
+        <div
+          class="bg-background w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300"
+        >
+          <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold mb-3 text-white">Dashboard Histórico</h3>
+        <p class="text-textMuted leading-relaxed">
+          Analiza tu rendimiento. Compara el tiempo esperado frente al real y visualiza tu
+          porcentaje de meta alcanzada diariamente.
+        </p>
+      </div>
+
+      <div
+        class="group bg-surface p-8 rounded-3xl border border-white/5 hover:border-primary/50 hover:bg-surface/80 transition-all duration-500 hover:-translate-y-2"
+      >
+        <div
+          class="bg-background w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300"
+        >
+          <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold mb-3 text-white">Wearable Sync</h3>
+        <p class="text-textMuted leading-relaxed">
+          Vincula tu Smartwatch mediante un PIN rápido. Inicia, pausa y registra tus actividades sin
+          sacar el teléfono del bolsillo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="bg-surface/30 border-t border-b border-white/5 py-24">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">El flujo de trabajo perfecto</h2>
+        <p class="text-textMuted text-lg">Tres simples pasos para dominar tu rutina.</p>
+      </div>
+
+      <div class="flex flex-col md:flex-row justify-between gap-12 relative">
+        <div
+          class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -z-10 -translate-y-1/2"
+        ></div>
+
+        <div class="flex flex-col items-center text-center flex-1">
+          <div
+            class="w-16 h-16 rounded-full bg-surface border-2 border-primary text-primary flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
+          >
+            1
+          </div>
+          <h4 class="text-xl font-bold mb-2">Diseña en la Web</h4>
+          <p class="text-textMuted">
+            Crea tus bloques de tareas con tiempos objetivos desde la comodidad de tu computadora.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center text-center flex-1">
+          <div
+            class="w-16 h-16 rounded-full bg-surface border-2 border-primary text-primary flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
+          >
+            2
+          </div>
+          <h4 class="text-xl font-bold mb-2">Vincula tu Reloj</h4>
+          <p class="text-textMuted">
+            Abre la app en tu Smartwatch, ingresa el PIN en la web y los dispositivos se
+            sincronizarán al instante.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center text-center flex-1">
+          <div
+            class="w-16 h-16 rounded-full bg-surface border-2 border-primary text-primary flex items-center justify-center text-2xl font-bold mb-6 shadow-[0_0_15px_rgba(16,185,129,0.2)]"
+          >
+            3
+          </div>
+          <h4 class="text-xl font-bold mb-2">Ejecuta y Analiza</h4>
+          <p class="text-textMuted">
+            Inicia tu bloque. El reloj guía tu ritmo y la web genera las métricas en tiempo real al
+            finalizar.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-background py-12 border-t border-white/5">
+    <div
+      class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="flex items-center gap-2">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        <span class="text-lg font-bold">SyncRoutine</span>
+      </div>
+      <p class="text-textMuted text-sm text-center md:text-left">
+        &copy; 2026 SyncRoutine. Construido para potenciar tu disciplina.
+      </p>
+    </div>
+  </footer>
+</div>

@@ -1,0 +1,328 @@
+<div class="max-w-7xl mx-auto relative h-full pb-10">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-white tracking-tight">Dashboard Histórico</h1>
+      <p class="text-textMuted mt-1">
+        Analiza tu consistencia y el tiempo invertido en tus rutinas.
+      </p>
+    </div>
+
+    <select
+      [(ngModel)]="filtroTiempo"
+      (change)="onFiltroCambio()"
+      class="bg-surface border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm font-semibold focus:outline-none focus:border-primary transition-all cursor-pointer"
+    >
+      <option value="7dias">Últimos 7 días</option>
+      <option value="30dias">Últimos 30 días</option>
+      <option value="todos">Todos los tiempos</option>
+    </select>
+  </div>
+
+  <div *ngIf="isLoadingGlobal" class="flex justify-center py-20">
+    <svg class="animate-spin h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24">
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      ></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  </div>
+
+  <div *ngIf="!isLoadingGlobal && resumen" class="space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="flex flex-col gap-5 col-span-1 md:col-span-1">
+        <div
+          class="bg-surface border border-white/5 rounded-3xl p-5 flex items-center gap-4 shadow-xl"
+        >
+          <div class="bg-primary/20 p-3 rounded-2xl text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-textMuted text-xs font-semibold uppercase">Tiempo Total</p>
+            <h2 class="text-2xl font-bold text-white mt-0.5">
+              {{ formatTime(resumen.tiempoTotalSegundos) }}
+            </h2>
+          </div>
+        </div>
+
+        <div
+          class="bg-surface border border-white/5 rounded-3xl p-5 flex items-center gap-4 shadow-xl"
+        >
+          <div class="bg-purple-500/20 p-3 rounded-2xl text-purple-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-textMuted text-xs font-semibold uppercase">Promedio Diario</p>
+            <h2 class="text-2xl font-bold text-white mt-0.5">
+              {{ formatTime(resumen.tiempoPromedioDiario) }}
+              <span class="text-sm font-normal text-textMuted">/ día</span>
+            </h2>
+          </div>
+        </div>
+
+        <div
+          class="bg-surface border border-white/5 rounded-3xl p-5 flex items-center gap-4 shadow-xl"
+        >
+          <div class="bg-orange-500/20 p-3 rounded-2xl text-orange-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-textMuted text-xs font-semibold uppercase">Racha Actual</p>
+            <h2 class="text-2xl font-bold text-white mt-0.5">
+              {{ resumen.rachaDiasActivos }}
+              <span class="text-sm text-textMuted font-medium">días</span>
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-surface border border-white/5 rounded-3xl p-6 shadow-xl col-span-1 md:col-span-2"
+      >
+        <h3 class="text-base font-bold text-white mb-2">Actividad Diaria</h3>
+
+        <div
+          *ngIf="chartGlobalOptions.series[0].data.length === 0"
+          class="flex items-center justify-center h-48 text-textMuted"
+        >
+          No hay actividad registrada en este periodo.
+        </div>
+
+        <apx-chart
+          *ngIf="chartGlobalOptions.series[0].data.length > 0"
+          [series]="chartGlobalOptions.series"
+          [chart]="chartGlobalOptions.chart"
+          [xaxis]="chartGlobalOptions.xaxis"
+          [yaxis]="chartGlobalOptions.yaxis"
+          [colors]="chartGlobalOptions.colors"
+          [dataLabels]="chartGlobalOptions.dataLabels"
+          [stroke]="chartGlobalOptions.stroke"
+          [grid]="chartGlobalOptions.grid"
+          [tooltip]="chartGlobalOptions.tooltip"
+        >
+        </apx-chart>
+      </div>
+    </div>
+
+    <hr class="border-white/5 my-4" />
+
+    <div class="flex flex-col gap-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Análisis de Eficiencia</h2>
+          <p class="text-textMuted text-sm">
+            Compara tus tiempos reales contra los planificados por rutina.
+          </p>
+        </div>
+
+        <select
+          [(ngModel)]="bloqueSeleccionadoId"
+          (change)="onBloqueSeleccionado()"
+          class="w-full sm:w-64 bg-surface border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm font-semibold focus:outline-none focus:border-primary transition-all cursor-pointer"
+        >
+          <option value="" disabled selected>Selecciona una rutina...</option>
+          <option *ngFor="let bloque of misBloques" [value]="bloque.id">{{ bloque.nombre }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="isLoadingBloque" class="flex justify-center py-10">
+        <svg class="animate-spin h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24">
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </div>
+
+      <div
+        *ngIf="!isLoadingBloque && metricasBloque"
+        class="grid grid-cols-1 md:grid-cols-4 gap-6 animate-fade-in-down"
+      >
+        <div
+          class="col-span-1 md:col-span-1 bg-surface border border-white/5 rounded-3xl p-6 shadow-xl flex flex-col justify-center items-center text-center"
+        >
+          <p class="text-textMuted text-sm font-semibold uppercase mb-2">Precisión</p>
+          <div
+            class="relative w-32 h-32 flex items-center justify-center rounded-full border-[6px]"
+            [ngClass]="{
+              'border-primary': metricasBloque.precisionPorcentaje >= 80,
+              'border-yellow-500':
+                metricasBloque.precisionPorcentaje >= 50 && metricasBloque.precisionPorcentaje < 80,
+              'border-danger': metricasBloque.precisionPorcentaje < 50,
+            }"
+          >
+            <h2 class="text-3xl font-black text-white">
+              {{ metricasBloque.precisionPorcentaje }}%
+            </h2>
+          </div>
+          <p class="text-xs text-textMuted mt-4">
+            100% significa que obtienes el tiempo objetivo a la perfección.
+          </p>
+        </div>
+
+        <div
+          class="col-span-1 md:col-span-3 bg-surface border border-white/5 rounded-3xl p-6 shadow-xl"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-base font-bold text-white">{{ metricasBloque.nombreBloque }}</h3>
+          </div>
+
+          <apx-chart
+            [series]="chartBloqueOptions.series"
+            [chart]="chartBloqueOptions.chart"
+            [xaxis]="chartBloqueOptions.xaxis"
+            [yaxis]="chartBloqueOptions.yaxis"
+            [colors]="chartBloqueOptions.colors"
+            [dataLabels]="chartBloqueOptions.dataLabels"
+            [plotOptions]="chartBloqueOptions.plotOptions"
+            [grid]="chartBloqueOptions.grid"
+            [tooltip]="chartBloqueOptions.tooltip"
+            [annotations]="chartBloqueOptions.annotations"
+          ></apx-chart>
+          <div *ngIf="!chartBloqueOptions.series" class="text-center py-10 text-textMuted">
+            No hay historial para este bloque.
+          </div>
+
+          <div *ngIf="metricasBloque.detalleActividades?.length" class="animate-fade-in-down">
+            <h3 class="text-xl font-bold text-white mb-1">Análisis por Tarea</h3>
+            <p class="text-textMuted text-sm mb-6">
+              Encuentra tus áreas de mejora y mejores tiempos.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div
+                *ngFor="let act of metricasBloque.detalleActividades"
+                class="bg-surface border border-white/5 rounded-2xl p-5 shadow-lg hover:border-white/10 transition-colors flex flex-col"
+              >
+                <div class="flex justify-between items-start mb-4">
+                  <h4 class="font-bold text-white text-lg leading-tight pr-2">{{ act.nombre }}</h4>
+
+                  <ng-container
+                    *ngIf="obtenerDesviacion(act.tiempoPromedioReal, act.tiempoObjetivo) as desv"
+                  >
+                    <span
+                      class="text-xs font-bold px-2 py-1 rounded-md whitespace-nowrap"
+                      [ngClass]="{
+                        'bg-white/5 text-textMuted':
+                          desv.estado === 'vacio' || desv.estado === 'exacto',
+                        'bg-danger/10 text-danger border border-danger/20': desv.estado === 'mal',
+                        'bg-primary/10 text-primary border border-primary/20':
+                          desv.estado === 'bien',
+                      }"
+                    >
+                      {{ desv.texto }}
+                    </span>
+                  </ng-container>
+                </div>
+
+                <div class="space-y-3 mt-auto">
+                  <div
+                    class="flex justify-between items-center text-sm border-b border-white/5 pb-2"
+                  >
+                    <span class="text-textMuted font-medium flex items-center gap-1.5">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                      </svg>
+                      Objetivo
+                    </span>
+                    <span class="font-bold text-white">{{ formatTime(act.tiempoObjetivo) }}</span>
+                  </div>
+
+                  <div
+                    class="flex justify-between items-center text-sm border-b border-white/5 pb-2"
+                  >
+                    <span class="text-textMuted font-medium flex items-center gap-1.5">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                        ></path>
+                      </svg>
+                      Tiempo Promedio
+                    </span>
+                    <span
+                      class="font-bold text-white"
+                      [ngClass]="{ 'text-textMuted': !act.tiempoPromedioReal }"
+                    >
+                      {{ act.tiempoPromedioReal ? formatTime(act.tiempoPromedioReal) : '--' }}
+                    </span>
+                  </div>
+
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-textMuted font-medium flex items-center gap-1.5">
+                      <svg
+                        class="w-4 h-4 text-yellow-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        ></path>
+                      </svg>
+                      Mejor Tiempo
+                    </span>
+                    <span
+                      class="font-bold text-white"
+                      [ngClass]="{ 'text-textMuted': !act.mejorTiempo }"
+                    >
+                      {{ act.mejorTiempo ? formatTime(act.mejorTiempo) : '--' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

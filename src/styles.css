@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* Definimos nuestra paleta personalizada para SyncRoutine */
+@theme {
+  --color-background: #0f172a; /* Slate 900 - Fondo principal oscuro */
+  --color-surface: #1e293b; /* Slate 800 - Fondo para tarjetas y menús */
+  --color-primary: #10b981; /* Emerald 500 - Color de acento (Botones) */
+  --color-primary-hover: #059669; /* Emerald 600 - Hover de botones */
+  --color-text-main: #f8fafc; /* Slate 50 - Texto principal blanco */
+  --color-text-muted: #94a3b8; /* Slate 400 - Texto secundario grisáceo */
+  --color-danger: #ef4444; /* Red 500 - Para errores o botones de eliminar */
+
+  --font-sans: 'Inter', sans-serif;
+}
+
+/* Estilos globales base */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
