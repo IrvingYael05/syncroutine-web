@@ -1,59 +1,45 @@
-# SyncroutineWeb
+# SyncRoutine Web Client
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+SyncRoutine es un ecosistema de productividad y alto rendimiento que permite a los usuarios diseñar, gestionar y ejecutar bloques de tareas estructuradas. Este cliente web actúa como el centro de mando principal, ofreciendo creación de rutinas, análisis de métricas históricas y un puente de vinculación seguro para dispositivos IoT (Smartwatches y/o Smart TVs).
 
-## Development server
+## Características Principales
 
-To start a local development server, run:
+- **Creador de Bloques:** Interfaz reactiva para diseñar secuencias de tareas (ordenadas o aleatorias) con tiempos objetivos precisos.
+- **Device Pairing (Flujo IoT):** Sistema de vinculación de dispositivos en tiempo real mediante validación de PIN criptográfico de 6 dígitos.
+- **Dashboard Analítico:** Gráficas interactivas para medir la precisión, rachas diarias y desviaciones de tiempo frente a los objetivos planificados.
+- **Arquitectura Serverless Auth:** Gestión de sesiones segura impulsada por Supabase, manejando JWTs y _Refresh Tokens_ en entornos aislados.
 
-```bash
-ng serve
-```
+## Stack Tecnológico
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Framework:** Angular 18+ (Standalone Components)
+- **Estilos:** Tailwind CSS (Paleta y directivas personalizadas)
+- **Gráficas:** ApexCharts
+- **Autenticación:** Supabase JS Client
 
-## Code scaffolding
+## Configuración del Entorno
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Clona el repositorio e instala dependencias:
 
-```bash
-ng generate component component-name
-```
+   ```bash
+   git clone [https://github.com/tu-usuario/syncroutine-web.git](https://github.com/tu-usuario/syncroutine-web.git)
+   cd syncroutine-web
+   npm install
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+   ```
 
-```bash
-ng generate --help
-```
+2. Configura las variables de entorno. Duplica el archivo environment.example.ts hacia environment.ts y añade tus llaves de Supabase:
 
-## Building
+    ```TypeScript
+    export const environment = {
+    production: false,
+    supabaseUrl: 'TU_SUPABASE_URL',
+    supabaseKey: 'TU_SUPABASE_ANON_KEY',
+    apiUrl: 'http://localhost:8080/api'
+    };
+    ```
 
-To build the project run:
+3. Despliega el servidor de desarrollo:
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+    ```Bash
+    ng serve
+    ```
