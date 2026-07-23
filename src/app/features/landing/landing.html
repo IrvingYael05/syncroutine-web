@@ -1,11 +1,13 @@
 <div
   class="min-h-screen bg-background text-textMain selection:bg-primary selection:text-white font-sans"
 >
+  <!-- ================= NAV DE LANDING ================= -->
   <nav
     class="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-white/5 transition-all duration-300"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
+        <!-- Logo (Izquierda) -->
         <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0, 0)">
           <div class="bg-primary/10 p-2 rounded-xl">
             <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,107 +22,103 @@
           <span class="text-2xl font-bold tracking-tight">SyncRoutine</span>
         </div>
 
-        <div class="hidden md:flex items-center gap-8">
-          <a
-            href="#caracteristicas"
-            class="text-sm font-medium text-textMuted hover:text-white transition-colors"
-            >Características</a
+        <!-- Menú Hamburguesa (Hover + Click) (Derecha) -->
+        <div class="relative" (mouseenter)="isMenuOpen = true" (mouseleave)="isMenuOpen = false">
+          <button
+            (click)="toggleMenu()"
+            class="text-textMuted hover:text-white p-2 focus:outline-none transition-colors"
           >
-          <a
-            href="#como-funciona"
-            class="text-sm font-medium text-textMuted hover:text-white transition-colors"
-            >Cómo Funciona</a
-          >
+            <svg
+              *ngIf="!isMenuOpen"
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+            <svg
+              *ngIf="isMenuOpen"
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
 
-          <div class="flex items-center gap-4 border-l border-white/10 pl-8">
-            <a
-              routerLink="/watch"
-              class="text-sm font-semibold text-textMuted hover:text-white transition-colors py-2.5"
+          <!-- Dropdown Desplegable -->
+          <div class="absolute right-0 w-64 pt-4 z-50">
+            <div
+              *ngIf="isMenuOpen"
+              class="bg-surface border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-slide-down origin-top-right"
             >
-              SmartWatch App
-            </a>
-          </div>
+              <div class="flex flex-col p-2 bg-background/90 backdrop-blur-xl gap-1">
+                <a
+                  (click)="scrollTo('caracteristicas')"
+                  class="text-textMuted hover:text-white hover:bg-white/5 p-3 rounded-xl transition-all font-medium cursor-pointer"
+                  >Características</a
+                >
+                <a
+                  (click)="scrollTo('como-funciona')"
+                  class="text-textMuted hover:text-white hover:bg-white/5 p-3 rounded-xl transition-all font-medium cursor-pointer"
+                  >Cómo Funciona</a
+                >
+                <a
+                  routerLink="/watch/pin"
+                  class="text-textMuted hover:text-white hover:bg-white/5 p-3 rounded-xl transition-all font-medium cursor-pointer"
+                  >Mi SmartWatch</a
+                >
 
-          <div class="flex items-center gap-4 border-l border-white/10 pl-8">
-            <a
-              routerLink="/login"
-              class="text-sm font-semibold text-textMuted hover:text-white transition-colors"
-            >
-              Iniciar Sesión
-            </a>
-            <a
-              routerLink="/login"
-              class="bg-primary hover:bg-primary-hover text-white text-sm font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
-            >
-              Regístrate
-            </a>
+                <div class="h-px bg-white/10 w-full my-1"></div>
+
+                <a
+                  routerLink="/login"
+                  (click)="isMenuOpen = false"
+                  class="text-textMuted hover:text-white hover:bg-white/5 p-3 rounded-xl transition-all font-semibold flex items-center gap-2"
+                >
+                  Iniciar Sesión
+                  <svg
+                    class="w-4 h-4 ml-auto"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    ></path>
+                  </svg>
+                </a>
+                <a
+                  routerLink="/login"
+                  (click)="isMenuOpen = false"
+                  class="bg-primary text-white text-center font-bold py-3 mt-1 rounded-xl shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all"
+                >
+                  Regístrate Gratis
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-
-        <button (click)="toggleMenu()" class="md:hidden text-textMuted hover:text-white p-2">
-          <svg
-            *ngIf="!isMenuOpen"
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-          <svg
-            *ngIf="isMenuOpen"
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div
-      *ngIf="isMenuOpen"
-      class="md:hidden bg-surface border-b border-white/10 absolute w-full shadow-2xl"
-    >
-      <div class="flex flex-col px-4 pt-4 pb-6 gap-4">
-        <a
-          href="#caracteristicas"
-          (click)="toggleMenu()"
-          class="text-textMuted hover:text-white p-2"
-          >Características</a
-        >
-        <a href="#como-funciona" (click)="toggleMenu()" class="text-textMuted hover:text-white p-2"
-          >Cómo Funciona</a
-        >
-        <div class="h-px bg-white/10 w-full my-2"></div>
-        <a routerLink="/watch" class="text-center text-textMuted hover:text-white font-semibold p-2"
-          >SmartWatch App</a
-        >
-
-        <a routerLink="/login" class="text-center text-textMuted hover:text-white font-semibold p-2"
-          >Iniciar Sesión</a
-        >
-        <a
-          routerLink="/login"
-          class="bg-primary text-white text-center font-bold py-3 rounded-xl shadow-lg shadow-primary/20"
-          >Regístrate Gratis</a
-        >
       </div>
     </div>
   </nav>
 
+  <!-- ================= CONTENIDO PRINCIPAL ================= -->
   <main
     class="relative flex flex-col items-center justify-center text-center px-4 pt-40 pb-20 md:pt-48 md:pb-32 overflow-hidden"
   >
@@ -302,24 +300,227 @@
     </div>
   </section>
 
-  <footer class="bg-background py-12 border-t border-white/5">
-    <div
-      class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6"
-    >
-      <div class="flex items-center gap-2">
-        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-        <span class="text-lg font-bold">SyncRoutine</span>
+  <!-- ================= FOOTER PREMIUM ================= -->
+  <footer class="bg-surface/30 border-t border-white/5 pt-16 pb-8 mt-10">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <!-- Columna 1: Info y Redes -->
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <div class="p-1.5 rounded-lg">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <span class="text-xl font-bold tracking-tight text-white">SyncRoutine</span>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed">
+          Plataforma de alto rendimiento diseñada para la concentración absoluta y organización de
+          rutinas. Desarrollado por Irving Yael Vázquez Serrano.
+        </p>
+        <div class="flex gap-4 mt-2">
+          <!-- Íconos de Redes Sociales -->
+          <a
+            href="https://github.com/IrvingYael05"
+            target="_blank"
+            class="text-textMuted hover:text-white transition-colors"
+          >
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                fill-rule="evenodd"
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/irving-yael-vazquez-serrano-5b7818160"
+            target="_blank"
+            class="text-textMuted hover:text-blue-400 transition-colors"
+          >
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
-      <p class="text-textMuted text-sm text-center md:text-left">
-        &copy; 2026 SyncRoutine. Construido para potenciar tu disciplina.
-      </p>
+
+      <!-- Columna 2: Enlaces Legales -->
+      <div class="flex flex-col gap-4">
+        <h4 class="text-white font-bold mb-2">Legal y Soporte</h4>
+        <button
+          (click)="openTerms()"
+          class="text-textMuted hover:text-primary transition-colors text-sm text-left w-fit"
+        >
+          Términos y Condiciones
+        </button>
+        <button
+          (click)="openPrivacy()"
+          class="text-textMuted hover:text-primary transition-colors text-sm text-left w-fit"
+        >
+          Aviso de Privacidad
+        </button>
+        <a
+          routerLink="/login"
+          class="text-textMuted hover:text-primary transition-colors text-sm text-left w-fit"
+          >Crear una cuenta</a
+        >
+      </div>
+
+      <!-- Columna 3: Formulario de Contacto -->
+      <div class="flex flex-col gap-4">
+        <h4 class="text-white font-bold mb-2">Contáctanos</h4>
+        <form [formGroup]="contactForm" (ngSubmit)="submitContact()" class="flex flex-col gap-3">
+          <input
+            formControlName="nombre"
+            type="text"
+            placeholder="Tu Nombre"
+            class="bg-background border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors"
+          />
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="Tu Correo Electrónico"
+            class="bg-background border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors"
+          />
+          <textarea
+            formControlName="mensaje"
+            rows="2"
+            placeholder="¿En qué te podemos ayudar?"
+            class="bg-background border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors resize-none"
+          ></textarea>
+          <button
+            type="submit"
+            [disabled]="contactForm.invalid"
+            class="bg-primary hover:bg-primary-hover disabled:bg-primary/50 disabled:text-white/50 text-white text-sm font-bold py-2.5 rounded-lg transition-all shadow-md mt-1"
+          >
+            Enviar Mensaje
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-white/5 pt-8 text-center text-textMuted text-xs">
+      &copy; 2026 SyncRoutine. Todos los derechos reservados.
     </div>
   </footer>
+
+  <!-- ================= MODAL TÉRMINOS Y CONDICIONES ================= -->
+  <div *ngIf="isTermsOpen" class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-background/80 backdrop-blur-sm" (click)="closeTerms()"></div>
+    <div
+      class="bg-surface border border-white/10 rounded-3xl p-6 sm:p-8 w-full max-w-2xl relative z-10 shadow-2xl animate-slide-down flex flex-col max-h-[85vh]"
+    >
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-white">Términos y Condiciones</h2>
+        <button (click)="closeTerms()" class="text-textMuted hover:text-white transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div class="overflow-y-auto pr-2 text-textMuted text-sm space-y-4 text-left custom-scrollbar">
+        <p><strong>Última actualización:</strong> 23 de Julio de 2026</p>
+        <p>
+          Bienvenido a SyncRoutine. Al utilizar nuestra plataforma web y ecosistema de aplicaciones
+          (en adelante, "el Servicio"), aceptas estos términos en su totalidad. Si no estás de
+          acuerdo con alguna parte, no debes utilizar el Servicio.
+        </p>
+        <h3 class="text-white font-bold text-base mt-4">1. Uso de la Plataforma</h3>
+        <p>
+          SyncRoutine es una herramienta de productividad. Te otorgamos una licencia limitada, no
+          exclusiva e intransferible para acceder a ella. No nos hacemos responsables por la pérdida
+          de datos o métricas derivadas de fallos de red o mal uso del sistema.
+        </p>
+        <h3 class="text-white font-bold text-base mt-4">2. Cuentas y Seguridad</h3>
+        <p>
+          Eres responsable de mantener la confidencialidad de tu cuenta y de las vinculaciones de
+          dispositivos IoT generadas mediante PIN. Cualquier actividad bajo tu cuenta es tu
+          responsabilidad.
+        </p>
+        <h3 class="text-white font-bold text-base mt-4">3. Modificaciones</h3>
+        <p>
+          Nos reservamos el derecho de modificar o reemplazar estos Términos en cualquier momento.
+          El uso continuado del Servicio constituye la aceptación de dichos cambios.
+        </p>
+      </div>
+      <div class="mt-6 pt-4 border-t border-white/5 flex justify-end">
+        <button
+          (click)="closeTerms()"
+          class="bg-primary hover:bg-primary-hover text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-lg"
+        >
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL AVISO DE PRIVACIDAD ================= -->
+  <div *ngIf="isPrivacyOpen" class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-background/80 backdrop-blur-sm" (click)="closePrivacy()"></div>
+    <div
+      class="bg-surface border border-white/10 rounded-3xl p-6 sm:p-8 w-full max-w-2xl relative z-10 shadow-2xl animate-slide-down flex flex-col max-h-[85vh]"
+    >
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-white">Aviso de Privacidad</h2>
+        <button (click)="closePrivacy()" class="text-textMuted hover:text-white transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div class="overflow-y-auto pr-2 text-textMuted text-sm space-y-4 text-left custom-scrollbar">
+        <p>
+          En cumplimiento con las normativas de protección de datos aplicables, te informamos sobre
+          el tratamiento de tus datos en SyncRoutine.
+        </p>
+        <h3 class="text-white font-bold text-base mt-4">1. Datos Recopilados</h3>
+        <p>
+          Almacenamos tu correo electrónico, tu nombre, y las métricas de rendimiento/tiempo
+          relacionadas estrictamente con los bloques de actividades que tú crees en la plataforma.
+        </p>
+        <h3 class="text-white font-bold text-base mt-4">2. Finalidad del Tratamiento</h3>
+        <p>
+          La información recopilada se utiliza exclusivamente para: proveer y mantener el servicio,
+          analizar la eficiencia de tus rutinas a través de Dashboards, y gestionar la autenticación
+          de dispositivos mediante tokens JWT criptográficos.
+        </p>
+        <h3 class="text-white font-bold text-base mt-4">3. Compartición de Datos</h3>
+        <p>
+          Tus datos no serán vendidos, alquilados ni transferidos a terceros bajo ninguna
+          circunstancia, excepto cuando sea requerido por obligaciones legales.
+        </p>
+        <h3 class="text-white font-bold text-base mt-4">4. Derechos del Usuario</h3>
+        <p>
+          Tienes el derecho a acceder, rectificar o solicitar la eliminación total de tus datos y
+          métricas almacenadas contactándonos a través del formulario de soporte en la plataforma.
+        </p>
+      </div>
+      <div class="mt-6 pt-4 border-t border-white/5 flex justify-end">
+        <button
+          (click)="closePrivacy()"
+          class="bg-primary hover:bg-primary-hover text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-lg"
+        >
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -15,7 +15,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return from(supabase.auth.getSession()).pipe(
     switchMap(({ data }) => {
       const token = data.session?.access_token;
-
       let requestToForward = req;
 
       // Si hay token, se clona la peticion e inyecta
@@ -35,13 +34,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             // 1. Se limpia la sesión en Supabase
             authService.signOut();
 
-            // 2. Se muestra el Toast
-            toast.error('Tu sesión ha expirado o es inválida. Inicia sesión nuevamente.');
+            // 2. Detectamos si estamos en la interfaz del reloj o en la web normal
+            const currentUrl = router.url;
 
-            // 3. Se redirige al Login
-            router.navigate(['/login']);
+            if (currentUrl.includes('/watch')) {
+              toast.error('Sesión de reloj expirada. Generando nuevo PIN...');
+              router.navigate(['/watch/pin']); // <-- Regresa al PIN del reloj
+            } else {
+              toast.error('Tu sesión ha expirado o es inválida. Inicia sesión nuevamente.');
+              router.navigate(['/login']); // <-- Regresa al Login de la Web
+            }
           }
-
           return throwError(() => error);
         }),
       );
