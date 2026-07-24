@@ -129,6 +129,17 @@
               </svg>
               Editar Perfil
             </a>
+            <a
+              routerLink="/vincular-reloj"
+              (click)="isProfileMenuOpen = false"
+              class="w-full text-left px-4 py-3 text-sm text-textMuted hover:text-white hover:bg-white/5 flex items-center gap-2 transition-colors cursor-pointer mt-1"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              Vincular SmartWatch
+            </a>
             <button
               (click)="logout()"
               class="w-full text-left px-4 py-3 text-sm text-danger hover:bg-danger/10 flex items-center gap-2 transition-colors border-t border-white/5 mt-1"
