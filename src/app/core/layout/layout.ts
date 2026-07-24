@@ -20,6 +20,7 @@ export class Layout implements OnInit {
   isMobileMenuOpen = false;
   isProfileMenuOpen = false;
   isLoading = false;
+  isTouch = false;
 
   // Variables para la interfaz
   userInitial = 'U';
@@ -41,8 +42,12 @@ export class Layout implements OnInit {
     });
   }
 
-  toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  // --- MÉTODOS DEL MENÚ PERFIL ---
+  onProfileMenuEnter() {
+    if (!this.isTouch) this.isProfileMenuOpen = true;
+  }
+  onProfileMenuLeave() {
+    if (!this.isTouch) this.isProfileMenuOpen = false;
   }
   toggleProfileMenu() {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;

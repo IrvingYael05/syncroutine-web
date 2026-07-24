@@ -23,7 +23,12 @@
         </div>
 
         <!-- Menú Hamburguesa (Hover + Click) (Derecha) -->
-        <div class="relative" (mouseenter)="isMenuOpen = true" (mouseleave)="isMenuOpen = false">
+        <div
+          class="relative"
+          (touchstart)="isTouch = true"
+          (mouseenter)="onMouseEnter()"
+          (mouseleave)="onMouseLeave()"
+        >
           <button
             (click)="toggleMenu()"
             class="text-textMuted hover:text-white p-2 focus:outline-none transition-colors"

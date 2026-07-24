@@ -15,6 +15,7 @@ export class Landing {
   isMenuOpen = false;
   isTermsOpen = false;
   isPrivacyOpen = false;
+  isTouch = false;
 
   private fb = inject(FormBuilder);
   private toast = inject(ToastService);
@@ -25,6 +26,13 @@ export class Landing {
     email: ['', [Validators.required, Validators.email]],
     mensaje: ['', Validators.required],
   });
+
+  onMouseEnter() {
+    if (!this.isTouch) this.isMenuOpen = true;
+  }
+  onMouseLeave() {
+    if (!this.isTouch) this.isMenuOpen = false;
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

@@ -75,11 +75,13 @@
       <!-- Menú de Perfil -->
       <div
         class="relative"
-        (mouseenter)="isProfileMenuOpen = true"
-        (mouseleave)="isProfileMenuOpen = false"
+        (touchstart)="isTouch = true"
+        (mouseenter)="onProfileMenuEnter()"
+        (mouseleave)="onProfileMenuLeave()"
       >
         <button
-          class="flex items-center gap-3 hover:bg-white/5 p-2 rounded-xl transition-colors cursor-default"
+          (click)="toggleProfileMenu()"
+          class="flex items-center gap-3 hover:bg-white/5 p-2 rounded-xl transition-colors cursor-default focus:outline-none"
         >
           <div class="w-25 bg-transparent flex items-center justify-center font-bold text-right">
             {{ userName }}
