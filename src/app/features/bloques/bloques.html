@@ -21,6 +21,37 @@
     </button>
   </div>
 
+  <!-- Módulo de Búsqueda Elasticsearch -->
+  <div class="mb-8 bg-surface/50 p-6 rounded-2xl border border-white/5 relativecenter">
+    <h3 class="text-white font-bold mb-3 flex items-center gap-2">
+      <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        ></path>
+      </svg>
+      Búsqueda de Bloques
+    </h3>
+
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="buscarEnElastic()"
+      placeholder="Busca tus bloques por nombre..."
+      class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-primary focus:outline-none transition-colors"
+    />
+  </div>
+
+  <div
+    *ngIf="bloquesBusqueda.length === 0 && searchTerm !== '' && !isLoading"
+    class="mt-4 text-center text-textMuted py-8 bg-surface/30 rounded-xl border border-white/5"
+  >
+    No se encontraron bloques que coincidan con "{{ searchTerm }}".
+  </div>
+
+  <!-- Estado Cargando -->
   <div *ngIf="isLoading" class="flex justify-center items-center py-20">
     <svg class="animate-spin h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24">
       <circle
@@ -39,6 +70,7 @@
     </svg>
   </div>
 
+  <!-- Estado Vacío -->
   <div
     *ngIf="!isLoading && bloques.length === 0"
     class="bg-surface/50 border border-white/5 border-dashed rounded-3xl p-12 text-center"
@@ -63,12 +95,13 @@
     </button>
   </div>
 
+  <!-- Bloques -->
   <div
-    *ngIf="!isLoading && bloques.length > 0"
+    *ngIf="!isLoading && bloquesBusqueda.length > 0"
     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
   >
     <div
-      *ngFor="let bloque of bloques"
+      *ngFor="let bloque of bloquesBusqueda"
       class="group bg-surface border border-white/5 rounded-3xl p-6 hover:border-primary/30 transition-all shadow-lg hover:shadow-primary/5 flex flex-col h-full"
     >
       <div class="flex justify-between items-start mb-4">

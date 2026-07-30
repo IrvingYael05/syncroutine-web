@@ -1,6 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { BloquesService, Bloque } from '../../core/services/bloques/bloques';
 import { AuthService } from '../../core/services/auth/auth';
 import { ToastService } from '../../core/services/toast/toast.service';
@@ -9,7 +11,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-bloques',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, FormsModule],
   templateUrl: './bloques.html',
 })
 export class Bloques implements OnInit {
@@ -19,6 +21,7 @@ export class Bloques implements OnInit {
   private fb = inject(FormBuilder);
 
   bloques: Bloque[] = [];
+  bloquesBusqueda: Bloque[] = [];
   isLoading = true;
   isSubmitting = false;
   currentUserId: string | null = null;
@@ -31,6 +34,13 @@ export class Bloques implements OnInit {
     nombre: ['', [Validators.required, Validators.minLength(3)]],
     esAleatorio: [false],
   });
+
+  // Variables para el buscador
+  searchTerm: string = '';
+  resultadosBusqueda: any[] = [];
+
+  private http = inject(HttpClient);
+  private searchApiUrl = 'https://syncroutine-buscador.onrender.com/search';
 
   async ngOnInit() {
     const user = await this.authService.getCurrentUser();
@@ -46,6 +56,7 @@ export class Bloques implements OnInit {
     this.bloquesService.getByUserId(this.currentUserId).subscribe({
       next: (data) => {
         this.bloques = data;
+        this.bloquesBusqueda = [...data];
         this.isLoading = false;
       },
       error: () => {
@@ -135,5 +146,28 @@ export class Bloques implements OnInit {
         error: () => this.toast.error('Error al eliminar el bloque'),
       });
     }
+  }
+
+  buscarEnElastic() {
+    if (this.searchTerm.trim() === '') {
+      this.bloquesBusqueda = [...this.bloques];
+      this.isLoading = false;
+      return;
+    }
+
+    this.isLoading = true;
+
+    const url = `${this.searchApiUrl}?q=${this.searchTerm}&user_id=${this.currentUserId}`;
+
+    this.http.get<any[]>(url).subscribe({
+      next: (resultados) => {
+        this.bloquesBusqueda = resultados;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error buscando en Elasticsearch:', err);
+        this.isLoading = false;
+      },
+    });
   }
 }
