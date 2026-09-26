@@ -27,7 +27,7 @@ export class Vinculacion implements OnInit, OnDestroy {
     this.refreshInterval = setInterval(() => {
       this.isLoading = true;
       this.prepararVinculacion();
-    }, 600000);
+    }, 60000);
   }
 
   ngOnDestroy() {
